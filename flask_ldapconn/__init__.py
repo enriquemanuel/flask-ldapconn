@@ -135,7 +135,10 @@ class LDAPConn(object):
                 self.connection.search(base_dn, user_filter, search_scope,
                                        attributes=[attribute])
                 response = self.connection.response
-                username = response[0]['dn']
+                try:
+                    username = response[0]['dn']
+                except KeyError:
+                    return False
             except (LDAPInvalidDnError, LDAPInvalidFilterError, IndexError):
                 return False
 
